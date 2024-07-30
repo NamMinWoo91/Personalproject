@@ -1,67 +1,180 @@
+/* styles.css */
+
+/* 기본 스타일 초기화 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 배경과 기본 텍스트 설정 */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Comic Sans MS', 'Arial', sans-serif;
+    background: url('backimg.jpg') no-repeat center center fixed;
+    background-size: 50%; /* 이미지 크기를 50%로 조정 */
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column; /* 세로 정렬 */
+    justify-content: center; /* 중앙 정렬 */
+    align-items: center; /* 중앙 정렬 */
     height: 100vh;
-    background-color: #f0f0f0;
+    color: #333;
+    transform: scale(0.8); /* 화면 크기를 80%로 축소 */
+    transform-origin: top left; /* 축소 기준점 설정 */
+    margin-left : 15%;
 }
 
-.chat-container {
-    width: 400px;
-    background-color: #fff;
+
+/* 메인 컨테이너 스타일 */
+.main-container {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    
+}
+
+/* 사이드바 스타일 */
+.sidebar {
+    width: 30%;
+    padding: 20px;
+    margin-right: 20px;
+}
+
+.sidebar h2 {
+    font-size: 22px;
+    color: #ff6699;
+    font-weight: bold;
+    text-shadow: 1px 1px #ffd700;
+    margin-bottom: 20px;
+}
+
+.sidebar p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* 오른쪽 사이드바 스타일 */
+.rightsidebar {
+    width: 30%;
+    padding: 20px;
+    margin-right: 20px;
+}
+
+/* 오른쪽 사이드바 텍스트 스타일 */
+.rightsidebar p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* 오른쪽 사이드바 헤더 스타일 */
+.rightsidebar h2 {
+    font-size: 22px;
+    color: #ff6699;
+    font-weight: bold;
+    text-shadow: 1px 1px #ffd700;
+    margin-bottom: 20px;
+}
+
+/* 채팅 입력 창 + SEND 버튼 대화창 사이즈 스타일*/
+.input-container{
+    width: 100%;
+}
+
+/* 중앙 전체 채팅 컨테이너 설정 */
+.chat-container {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 제목 스타일 */
+.chat-container h1 {
+    margin-bottom: 20px;
+    font-size: 26px;
+    color: #ff6699;
+    font-weight: bold;
     text-align: center;
+    text-shadow: 2px 2px #ffd700;
+    text-transform: uppercase;
 }
 
-h1 {
-    margin-bottom: 20px;
-}
-
+/* 채팅 로그 스타일 */
 .chat-log {
-    height: 300px;
+    width: 100%;
+    height: 600px;
     overflow-y: auto;
+    border: 2px solid #66ccff;
+    border-radius: 10px;
+    padding: 15px;
     margin-bottom: 20px;
-    border: 1px solid #ddd;
-    padding: 10px;
-    border-radius: 4px;
+    background-color: #f0f8ff;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+/* 입력 필드 스타일 */
+.chat-input {
+    width: 80%;
+    padding: 12px 15px;
+    border: 2px solid #66ccff;
+    border-radius: 20px;
+    margin-right: 10px;
+    font-size: 16px;
+    background-color: #fff;
+    color: #333;
+    transition: border-color 0.3s ease;
+}
+
+.chat-input:focus {
+    border-color: #ff66cc;
+    outline: none;
+}
+
+/* 전송 버튼 스타일 */
+.send-btn {
+    width: 60px;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 20px;
+    background-color: #ff66cc;
+    color: #ffffff;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* 전송 버튼 호버 효과 */
+.send-btn:hover {
+    background-color: #cc3399;
+}
+
+/* 기본 메시지 스타일 */
 .message {
-    padding: 10px;
     margin: 10px 0;
-    border-radius: 4px;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 60%;
 }
 
+/* 사용자의 메시지를 오른쪽에 배치 */
 .user-message {
     background-color: #dcf8c6;
-    text-align: left;
+    align-self: flex-end;
+    text-align: right;
+    margin-left: auto; /* 왼쪽 마진을 자동으로 설정하여 오른쪽 끝으로 정렬 */
 }
 
+/* 봇 메시지 스타일 */
 .bot-message {
-    background-color: #f1f0f0;
+    background-color: #66ccff;
+    color: #333333;
+    align-self: flex-start;
     text-align: left;
-}
-
-.chat-input {
-    width: calc(100% - 80px);
-    padding: 10px;
-    margin-right: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-.send-btn {
-    padding: 10px 20px;
-    border: none;
-    background-color: #007bff;
-    color: #fff;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.send-btn:hover {
-    background-color: #0056b3;
+    margin-right: auto; /* 오른쪽 마진을 자동으로 설정하여 왼쪽 끝으로 정렬 */
+    border-bottom-left-radius: 0;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }

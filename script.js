@@ -24,6 +24,7 @@ const context =`
 지식 수준:
 기본적인 일상 개념은 알고 있지만, 복잡한 학문적 개념은 모릅니다.
 새로운 정보를 들으면 자신의 제한된 경험과 연결 지어 이해하려 합니다.
+만약 질문자가 개념에 대해 알려달라고 할떄까지는 이해도가 20%인 상태로 시작합니다.
 
 
 상호작용 방식:
@@ -52,14 +53,10 @@ const history = [
     { role: "system", content: context }
 ];
 
-// 설명 시도 횟수를 추적하는 변수와 최대 시도 횟수 설정
-let explanationCount = 0;
-const maxExplanations = 3;
-
 // 페이지 로드 시 초기 안내 메시지를 보여줌
-function showInitialMessage() {
-    addMessageToChat("파인만 공부모델에 오신것을 환영합니다. 당신이 알고 있는 개념에 대해 설명 해주세요.", 'bot');
-}
+//function showInitialMessage() {
+//    addMessageToChat("파인만 공부모델에 오신것을 환영합니다. 당신이 알고 있는 개념에 대해 설명 해주세요.", 'bot');
+//}
 
 // 이해도를 계산하는 함수 (현재는 임의의 값을 반환)
 //function calculateUnderstandingPercentage() {
@@ -75,39 +72,34 @@ async function sendMessage() {
     addMessageToChat(userMessage, 'user'); // 채팅창에 사용자의 메시지 추가
     inputField.value = ""; // 입력 필드 초기화
 
-    explanationCount++; // 설명 시도 횟수 증가
+    
 
-    history.push({ role: "user", content: userMessage });
+    history.push({ role: "user", content: userMessage }); // 채팅 대화내용 을 history 함수에 저장
 
     
     const botMessage = await fetchBotResponse(); // API로부터 봇의 응답을 가져옴
     addMessageToChat(botMessage, 'bot'); // 채팅창에 봇의 응답 추가
         
-    //const understandingPercentage = calculateUnderstandingPercentage(); // 이해도 계산
-    //addMessageToChat(`Based on your explanations, I understand the concept ${understandingPercentage}%`, 'bot'); // 채팅창에 이해도 퍼센티지 추가
-        
-    history.push({ role: "user", content: "지금까지 이해한 것을 퍼센트로 표현해서 답변해줘" });
+
+    history.push({ role: "user", content: "지금까지 이해한 것을 퍼센트로 표현해서 답변해줘" }); // 이해한것을 수치화 하는 기능
     const percentmessage = await fetchBotResponse(); // API로부터 봇의 응답을 가져옴
-    //addMessageToChat(percentmessage, 'bot'); // 채팅창에 봇의 응답 추가
     const percent = extractPercentage(percentmessage); // 퍼센트 값을 추출
 
-    if(percent > 80) {
-        addMessageToChat(percentmessage, 'bot'); // 채팅창에 봇의 응답 추가
+    if(percent >= 60) {
+        addMessageToChat(percentmessage, 'bot'); // 채팅창에 봇의 이해도 응답 
     }
     
 
-    if (percent >= 99) {
+    if (percent >= 99) { // 봇의 이해도 도달시 기능알림 
         const userConfirmed = confirm("축하드립니다! 다음 이용을 위해서는 새로고침 후 이용 가능합니다. 새로고침 하시겠습니까?");
         if (userConfirmed) {
             location.reload(); // 페이지 새로고침
         }
     }      
-    //alert(`이해도는 ${percent}% 입니다.`); // 경고창에 이해도 표시
-    
 }
 
 
-// 퍼센트 값을 추출하는 함수
+// 봇의 텍스트에서 퍼센트 값을 파싱 함수
 function extractPercentage(text) {
     const regex = /(\d+)%/;
     const match = text.match(regex);
@@ -116,7 +108,6 @@ function extractPercentage(text) {
     }
     return null; // 퍼센트 수치를 찾지 못한 경우
 }
-
 
 
 // 채팅창에 메시지를 추가하는 함수
@@ -129,7 +120,6 @@ function addMessageToChat(message, sender) {
     chatLog.appendChild(messageElement); // 채팅 로그에 메시지 요소 추가
     chatLog.scrollTop = chatLog.scrollHeight; // 채팅 로그 스크롤을 맨 아래로 설정
 }
-
 
 // 봇의 응답을 API로부터 가져오는 함수
 async function fetchBotResponse() {
@@ -170,4 +160,4 @@ async function fetchBotResponse() {
 }
 
 // 페이지 로드 시 초기 메시지 보여주기
-window.onload = showInitialMessage;
+//window.onload = showInitialMessage;
