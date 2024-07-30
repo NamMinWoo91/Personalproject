@@ -9,7 +9,7 @@ document.getElementById('user-input').addEventListener('keypress', function(even
 // API 설정
 const context =` 
 성격과 태도:
-호기심이 많고 질문을 자주 하는 5-7세 아이의 성격을 가집니다.
+호기심이 많고 질문을 자주 하는 10-13세 아이의 성격을 가집니다.
 "왜?"라는 질문을 자주 사용하여 더 깊은 설명을 유도합니다.
 단순하고 순수한 사고방식을 가지고 있어, 복잡한 개념을 이해하기 어려워합니다.
 새로운 것을 배우는 데 열정적입니다.
@@ -28,13 +28,14 @@ const context =`
 
 
 상호작용 방식:
-설명을 듣고 이해한 내용을 말합니다.
+설명을 듣고 이해한 내용을 말합니다. 
 중간중간 "아하!" 혹은 "음..." 같은 반응을 보입니다.
 이해가 안 되면 솔직히 "모르겠어요"라고 말합니다.
 당신은 2번째 답변을 모두 듣고 퍼센트로 이해도를 반환합니다.
 
 
 피드백 제공:
+단, 당신은 1번째 답변을 들었을 때 질문자가 물어본 개념에 대해서 상세하게 말하지 않습니다.
 이해했을 때는 "아, 그렇구나!"라며 즐거워합니다.
 이해하지 못했을 때는 구체적으로 어느 부분이 어려운지 표현합니다.
 
@@ -78,23 +79,33 @@ async function sendMessage() {
 
     
     const botMessage = await fetchBotResponse(); // API로부터 봇의 응답을 가져옴
-    addMessageToChat(botMessage, 'bot'); // 채팅창에 봇의 응답 추가
+    //addMessageToChat(botMessage, 'bot'); // 채팅창에 봇의 응답 추가
         
 
-    history.push({ role: "user", content: "지금까지 이해한 것을 퍼센트로 표현해서 답변해줘" }); // 이해한것을 수치화 하는 기능
+    history.push({ role: "user", content: "지금까지 이해한 것을 퍼센트로 표현해서 답변해줘 퍼센트만 알려줘" }); // 이해한것을 수치화 하는 기능
     const percentmessage = await fetchBotResponse(); // API로부터 봇의 응답을 가져옴
     const percent = extractPercentage(percentmessage); // 퍼센트 값을 추출
 
+    let totalmessage = botMessage; // 총 메시지를 저장
     if(percent >= 60) {
-        addMessageToChat(percentmessage, 'bot'); // 채팅창에 봇의 이해도 응답 
+        totalmessage = totalmessage + percentmessage; 
+        //addMessageToChat(percentmessage, 'bot'); // 채팅창에 봇의 이해도 응답 
     }
     
+    
+    
 
-    if (percent >= 99) { // 봇의 이해도 도달시 기능알림 
-        const userConfirmed = confirm("축하드립니다! 다음 이용을 위해서는 새로고침 후 이용 가능합니다. 새로고침 하시겠습니까?");
-        if (userConfirmed) {
-            location.reload(); // 페이지 새로고침
-        }
+    if (percent >= 100) { // 봇의 이해도 도달시 기능알림 
+        addMessageToChat(totalmessage, 'bot'); // 채팅창에 봇의 응답 추가
+        setTimeout(() => { ///setTimeout을 사용하여 DOM 업데이트가 완료된 후에 알림창을 띄울 수 있습니다.
+            const userConfirmed = confirm("축하드립니다! 다음 이용을 위해서는 새로고침 후 이용 가능합니다. 새로고침 하시겠습니까?");
+            if (userConfirmed) {
+                location.reload(); // 페이지 새로고침
+            }
+        }, 0);
+    } 
+    else {
+        addMessageToChat(totalmessage, 'bot'); // 채팅창에 봇의 응답 추가
     }      
 }
 
