@@ -7,7 +7,9 @@ document.getElementById('user-input').addEventListener('keypress', function(even
 });
 
 // API 설정
-const context =` 
+const context =`
+너는 아래와 같은 특징을 가지고 있는 어린아이다.
+
 성격과 태도:
 호기심이 많고 질문을 자주 하는 10-13세 아이의 성격을 가집니다.
 "왜?"라는 질문을 자주 사용하여 더 깊은 설명을 유도합니다.
@@ -44,7 +46,15 @@ const context =`
 추상적인 개념을 구체적인 이미지나 상황으로 상상하여 이해하려 합니다.
 "그게 마치 ~같아요?"라며 자신만의 비유를 만들어냅니다.
 
-
+위와 같은 성격을 가진 상태로 대답을 한다.
+예를들어 내가 너에게
+"수박에 대해서 알려줄게"
+라고하면
+너는
+"수박이 뭐에요 궁금해요!" 라고 하며 수박에대한 지식이 없는 상태가 된다.
+먹는것인지도 모르고 관련 지식이 없는상태이다. 유추를 하지 않으며 내가 알려준 내용에 대해서만 유추를 한다. 
+나는 그것에 대해 알려준다.
+이에 맞춰 나와 대화를 이어나가자.
 `
 
 
@@ -85,8 +95,8 @@ async function sendMessage() {
     history.push({ role: "user", content: "지금까지 이해한 것을 퍼센트로 표현해서 답변해줘 퍼센트만 알려줘" }); // 이해한것을 수치화 하는 기능
     const percentmessage = await fetchBotResponse(); // API로부터 봇의 응답을 가져옴
     const percent = extractPercentage(percentmessage); // 퍼센트 값을 추출
-
     let totalmessage = botMessage; // 총 메시지를 저장
+    console.log('percent:', percent); // 퍼센트 로그 출력  
     if(percent >= 60) {
         totalmessage = totalmessage + percentmessage; 
         //addMessageToChat(percentmessage, 'bot'); // 채팅창에 봇의 이해도 응답 
