@@ -1,5 +1,17 @@
 # Personal Project
 
+## WBS
+![image](https://github.com/user-attachments/assets/6ce1bf69-7939-4014-95f7-768255605e79)
+
+### Wide frame
+
+![image](https://github.com/user-attachments/assets/4947d61a-e65a-44ee-a5c3-45924e890f16)
+
+
+
+
+
+
 ## 1. 프로젝트 설명
 
 ### 목표
